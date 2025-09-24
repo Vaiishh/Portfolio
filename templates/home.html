@@ -1,0 +1,1734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vaishnavi Srinivas - AI/ML Engineer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #7c3aed;
+            --accent-color: #06b6d4;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --border-color: #e2e8f0;
+            --shadow-light: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+            --shadow-medium: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-heavy: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+            --nav-bg: rgba(248, 250, 252, 0.95);
+        }
+
+        [data-theme="dark"] {
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #334155;
+            --border-color: #475569;
+            --nav-bg: rgba(15, 23, 42, 0.95);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 20s infinite linear;
+        }
+
+        .shape.circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .shape.square {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, var(--secondary-color), var(--accent-color));
+            transform: rotate(45deg);
+        }
+
+        .shape.triangle {
+            width: 0;
+            height: 0;
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-bottom: 45px solid var(--primary-color);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+            }
+        }
+
+        /* Navigation - Fixed spacing and visibility */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-light);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            background: var(--bg-card);
+            color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-light);
+        }
+
+        .nav-links a.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .theme-toggle {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+            margin-left: 1rem;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            min-height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .profile-container {
+            position: relative;
+            margin-bottom: 2rem;
+            animation: profileFloat 6s ease-in-out infinite;
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid transparent;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            padding: 4px;
+            box-shadow: var(--shadow-heavy);
+            transition: all 0.3s ease;
+        }
+
+        .profile-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 25px 50px -12px rgba(37, 99, 235, 0.25);
+        }
+
+        .profile-rings {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .ring {
+            position: absolute;
+            border: 2px solid;
+            border-radius: 50%;
+            animation: ringPulse 3s ease-in-out infinite;
+        }
+
+        .ring:nth-child(1) {
+            width: 240px;
+            height: 240px;
+            top: -20px;
+            left: -20px;
+            border-color: rgba(37, 99, 235, 0.3);
+            animation-delay: 0s;
+        }
+
+        .ring:nth-child(2) {
+            width: 280px;
+            height: 280px;
+            top: -40px;
+            left: -40px;
+            border-color: rgba(124, 58, 237, 0.2);
+            animation-delay: 1s;
+        }
+
+        @keyframes profileFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes ringPulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 0.6; }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .hero .description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-heavy);
+            border-color: var(--primary-color);
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 2rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 2rem 0;
+            padding-left: 4rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            transform: translateX(10px);
+        }
+
+        .timeline-item:hover .timeline-content {
+            background: var(--bg-card);
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 1.25rem;
+            top: 1rem;
+            width: 1rem;
+            height: 1rem;
+            background: var(--primary-color);
+            border-radius: 50%;
+            border: 3px solid var(--bg-primary);
+            z-index: 1;
+        }
+
+        .timeline-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content .company {
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content .date {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .skill-category {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+        }
+
+        .skill-category h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 1rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Project Cards Enhanced - Cleaner design */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-heavy);
+            border-color: var(--primary-color);
+        }
+
+        .project-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(180deg); }
+        }
+
+        .project-icon {
+            width: 4rem;
+            height: 4rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .project-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .project-role {
+            opacity: 0.9;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .project-content {
+            padding: 2rem;
+        }
+
+        .project-summary {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background: var(--bg-primary);
+            border-radius: 0.5rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .project-metrics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .metric {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .tech-tag {
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .tech-tag:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Certifications Styles - Better organization */
+        .certifications-container {
+            margin-top: 2rem;
+        }
+
+        .cert-category {
+            margin-bottom: 3rem;
+        }
+
+        .cert-category h3 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .cert-category h3::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .cert-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cert-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .cert-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-heavy);
+            border-color: var(--primary-color);
+        }
+
+        .cert-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .cert-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .cert-icon {
+            width: 3rem;
+            height: 3rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .cert-info {
+            flex: 1;
+        }
+
+        .cert-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.4;
+            margin-bottom: 0.5rem;
+        }
+
+        .cert-provider {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .cert-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Contact Page - Unified design */
+        .contact-hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .contact-hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 2rem;
+            padding: 3rem;
+            box-shadow: var(--shadow-heavy);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .contact-item {
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-medium);
+            border-color: var(--primary-color);
+        }
+
+        .contact-icon {
+            width: 3rem;
+            height: 3rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .contact-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .contact-detail {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-value {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .contact-value:hover {
+            text-decoration: underline;
+            transform: translateY(-1px);
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Contact Info */
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .contact-info .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .contact-info .contact-item a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .contact-info .contact-item a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .timeline::before {
+                left: 1rem;
+            }
+            
+            .timeline-item {
+                padding-left: 2.5rem;
+            }
+            
+            .timeline-dot {
+                left: 0.75rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-container {
+                padding: 2rem;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stagger > * {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .stagger > *:nth-child(1) { animation-delay: 0.1s; }
+        .stagger > *:nth-child(2) { animation-delay: 0.2s; }
+        .stagger > *:nth-child(3) { animation-delay: 0.3s; }
+        .stagger > *:nth-child(4) { animation-delay: 0.4s; }
+        .stagger > *:nth-child(5) { animation-delay: 0.5s; }
+        .stagger > *:nth-child(6) { animation-delay: 0.6s; }
+    </style>
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="bg-animation">
+        <div class="floating-shapes" id="shapes"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">VS</div>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showPage('home')" class="active">Home</a></li>
+                <li><a href="#" onclick="showPage('about')">About</a></li>
+                <li><a href="#" onclick="showPage('education')">Education</a></li>
+                <li><a href="#" onclick="showPage('skills')">Skills</a></li>
+                <li><a href="#" onclick="showPage('experience')">Experience</a></li>
+                <li><a href="#" onclick="showPage('projects')">Projects</a></li>
+                <li><a href="#" onclick="showPage('certifications')">Certifications</a></li>
+                <li><a href="#" onclick="showPage('publications')">Publications</a></li>
+                <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+            </ul>
+            <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">🌙</button>
+            <button class="mobile-menu-btn">☰</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <section class="hero">
+                <div class="container">
+                    <div class="profile-container">
+                        <div class="profile-rings">
+                            <div class="ring"></div>
+                            <div class="ring"></div>
+                        </div>
+                        <img src="../static/images/vaish.jpeg" alt="Vaishnavi Srinivas" class="profile-image">
+                    </div>
+                    <h1 class="fade-in">Vaishnavi Srinivas</h1>
+                    <h4>Innovating with Intelligence</h4><br>
+                    <p class="subtitle fade-in">Driven by curiosity and vision, crafting technology that empowers and inspires</p>
+                    <div class="cta-buttons fade-in">
+                        <button class="btn btn-secondary" onclick="showPage('contact')">Get In Touch</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- About Page -->
+        <div id="about" class="page">
+            <div class="container">
+                <h2 class="section-title">About Me</h2>
+                <div class="card-grid stagger">
+                    <div class="card">
+                        <h3>Who I Am</h3>
+                        <p>I'm Vaishnavi Srinivas, a Master's student in Computer Science at USC specializing in AI, ML, and full-stack development. With hands-on experience at Oracle and Technodysis, I've built AI-driven enterprise solutions and automated complex workflows that have improved efficiency by up to 40%.</p>
+                    </div>
+                    <div class="card">
+                        <h3>My Mission</h3>
+                        <p>To leverage AI and emerging technologies to solve real-world challenges—designing systems that enhance efficiency, empower decision-making, and improve everyday lives. My mission is to create solutions that are not just technically robust, but also intuitive, accessible, and impactful.</p>
+                    </div>
+                    <div class="card">
+                        <h3>My Approach</h3>
+                        <p>I believe in combining technical expertise with creativity to craft solutions that drive measurable impact. Whether it's improving supplier risk assessment accuracy by 25% or reducing processing time by 30%, I focus on delivering results that matter to businesses and users alike.</p>
+                    </div>
+                </div>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        📧 <a href="mailto:im.vaish1419@gmail.com">im.vaish1419@gmail.com</a>
+                    </div>
+                    <div class="contact-item">
+                        📱 <span>+1 (213) 357-6437</span>
+                    </div>
+                    <div class="contact-item">
+                        💼 <a href="https://www.linkedin.com/in/vaishnavi-s-65bb01240" target="_blank">LinkedIn</a>
+                    </div>
+                    <div class="contact-item">
+                        📍 <span>Los Angeles, California, USA</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Education Page -->
+        <div id="education" class="page">
+            <div class="container">
+                <h2 class="section-title">Education</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3>Master of Computer Science</h3>
+                            <div class="company">University of Southern California, Viterbi School of Engineering</div>
+                            <div class="date">August 2025 - May 2027</div>
+                            <p>Currently maintaining excellent academic performance while mastering advanced concepts in algorithms, databases, and artificial intelligence at one of the top engineering schools in the nation.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3>Bachelor of Engineering (Computer Science)</h3>
+                            <div class="company">B N M Institute of Technology, VTU</div>
+                            <div class="date">October 2021 - May 2025</div>
+                            <p>Graduated with a CGPA of 9.11/10, demonstrating consistent academic excellence and mastery of core computer science concepts. Graduated from Bengaluru, Karnataka, India.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Skills Page -->
+        <div id="skills" class="page">
+            <div class="container">
+                <h2 class="section-title">Technical Skills</h2>
+                <div class="skills-grid stagger">
+                    <div class="skill-category">
+                        <h3>Programming Languages</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Java</span>
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">C/C++</span>
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">TypeScript</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Python Libraries</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Pandas</span>
+                            <span class="skill-tag">NumPy</span>
+                            <span class="skill-tag">Matplotlib</span>
+                            <span class="skill-tag">OpenCV</span>
+                            <span class="skill-tag">PIL</span>
+                            <span class="skill-tag">Playwright</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Web Technologies</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">HTML</span>
+                            <span class="skill-tag">CSS</span>
+                            <span class="skill-tag">React</span>
+                            <span class="skill-tag">Node.js</span>
+                            <span class="skill-tag">Angular</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Frameworks & Backend</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Django</span>
+                            <span class="skill-tag">Flask</span>
+                            <span class="skill-tag">Apache Spark</span>
+                            <span class="skill-tag">Keras</span>
+                            <span class="skill-tag">PyTorch</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>AI/ML & Data Science</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Deep Learning</span>
+                            <span class="skill-tag">NLP</span>
+                            <span class="skill-tag">Computer Vision</span>
+                            <span class="skill-tag">LLMs</span>
+                            <span class="skill-tag">RAG</span>
+                            <span class="skill-tag">TensorFlow</span>
+                            <span class="skill-tag">Generative AI</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Cloud & DevOps</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">AWS</span>
+                            <span class="skill-tag">Azure</span>
+                            <span class="skill-tag">Oracle Cloud</span>
+                            <span class="skill-tag">Docker</span>
+                            <span class="skill-tag">Kubernetes</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Databases & Tools</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">MySQL</span>
+                            <span class="skill-tag">MongoDB</span>
+                            <span class="skill-tag">PL/SQL</span>
+                            <span class="skill-tag">Git</span>
+                            <span class="skill-tag">Power BI</span>
+                            <span class="skill-tag">Salesforce</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Soft Skills</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Leadership</span>
+                            <span class="skill-tag">Communication</span>
+                            <span class="skill-tag">Teamwork</span>
+                            <span class="skill-tag">Critical Thinking</span>
+                            <span class="skill-tag">Creativity</span>
+                            <span class="skill-tag">Learning Agility</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Experience Page -->
+        <div id="experience" class="page">
+            <div class="container">
+                <h2 class="section-title">Professional Experience</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3>Associate Consultant, SCM, GSC</h3>
+                            <div class="company">ORACLE</div>
+                            <div class="date">February 2024 - July 2025</div>
+                            <p>• Developed advanced solutions in Supplier Risk Management by leveraging Large Language Models, RAG and Python to enhance risk assessment accuracy by 25% across 1,000+ suppliers and reducing manual review time by 40%</p>
+                            <p>• Built AI agents on Oracle AI Agent platform using deep learning and cloud-native tools, streamlining workflows and driving measurable efficiency gains</p>
+                            <p>• Achieved multiple Oracle Cloud and AI certifications, establishing technical expertise and credibility in enterprise AI solutions</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3>Robotic Process Automation Developer</h3>
+                            <div class="company">TECHNODYSIS PVT LTD</div>
+                            <div class="date">September 2024 - January 2025</div>
+                            <p>• Spearheaded HR onboarding process, from design through deployment, cutting processing time by 30% and improving data accuracy across 200+ employee records</p>
+                            <p>• Led end-to-end development of a bank transaction verification system, collaborating with customers and stakeholders from BRD creation through UAT, reducing processing latency by 40%</p>
+                            <p>• Applied AI Builder, Power Apps, and Power Automate to train ML models and optimize workflow orchestration by 50%</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects Page -->
+        <div id="projects" class="page">
+            <div class="container">
+                <h2 class="section-title">Academic Projects</h2>
+                <div class="projects-grid stagger">
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div class="project-icon">📱</div>
+                            <div class="project-info">
+                                <h3>KCET Preparation Application</h3>
+                                <div class="project-role">Team Lead | October 2024 - March 2025</div>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-summary">
+                                A comprehensive mobile application designed to revolutionize KCET exam preparation through AI-powered features and real-time analytics.
+                            </div>
+                            <div class="project-description">
+                                Constructed a comprehensive KCET preparation mobile app using Angular and MongoDB, integrating advanced features including mock tests, past papers, performance analytics, interactive flashcards, and an AI-powered chatbot for personalized study assistance. The platform also generates customized study plans based on individual performance patterns.
+                            </div>
+                            <div class="project-metrics">
+                                <div class="metric">📈 500+ Daily Active Users</div>
+                                <div class="metric">🎯 Real-time Sync</div>
+                                <div class="metric">🤖 AI-Powered Features</div>
+                            </div>
+                            <div class="project-tech">
+                                <span class="tech-tag">Angular</span>
+                                <span class="tech-tag">MongoDB</span>
+                                <span class="tech-tag">AI Chatbot</span>
+                                <span class="tech-tag">Real-time Sync</span>
+                                <span class="tech-tag">Performance Analytics</span>
+                                <span class="tech-tag">Node.js</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div class="project-icon">❤️</div>
+                            <div class="project-info">
+                                <h3>Heart Attack Analysis and Prediction</h3>
+                                <div class="project-role">Team Lead | March 2024 - July 2024</div>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-summary">
+                                Advanced machine learning application for predicting heart attack risk using clinical data and sophisticated algorithms.
+                            </div>
+                            <div class="project-description">
+                                Architected a comprehensive Django web application that leverages multiple machine learning models with advanced preprocessing and statistical analysis to predict heart attack risk. Implemented feature engineering, data normalization, and cross-validation techniques to optimize model performance on real clinical datasets.
+                            </div>
+                            <div class="project-metrics">
+                                <div class="metric">📊 35% Accuracy Improvement</div>
+                                <div class="metric">⚡ Optimized Training</div>
+                                <div class="metric">🏥 Clinical Dataset Ready</div>
+                            </div>
+                            <div class="project-tech">
+                                <span class="tech-tag">Django</span>
+                                <span class="tech-tag">Machine Learning</span>
+                                <span class="tech-tag">Statistical Analysis</span>
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">Data Preprocessing</span>
+                                <span class="tech-tag">Scikit-learn</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div class="project-icon">📈</div>
+                            <div class="project-info">
+                                <h3>Financial Advisory Management</h3>
+                                <div class="project-role">Key Contributor | November 2023 - February 2024</div>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-summary">
+                                AI-powered stock price forecasting platform combining advanced machine learning techniques for financial market analysis.
+                            </div>
+                            <div class="project-description">
+                                Engineered a sophisticated stock price forecasting platform that combines regression models and LSTM neural networks to analyze historical financial data patterns. The system processes multiple data sources including market indicators, volume patterns, and sentiment analysis to provide comprehensive price predictions.
+                            </div>
+                            <div class="project-metrics">
+                                <div class="metric">🎯 82% Prediction Accuracy</div>
+                                <div class="metric">🏆 Smart India Hackathon Winner</div>
+                                <div class="metric">📊 Real-time Analysis</div>
+                            </div>
+                            <div class="project-tech">
+                                <span class="tech-tag">LSTM</span>
+                                <span class="tech-tag">Regression Models</span>
+                                <span class="tech-tag">Financial Analysis</span>
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">Time Series</span>
+                                <span class="tech-tag">TensorFlow</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Certifications Page -->
+        <div id="certifications" class="page">
+            <div class="container">
+                <h2 class="section-title">Professional Certifications</h2>
+                
+                <div class="certifications-container">
+                    <!-- Cloud Computing -->
+                    <div class="cert-category">
+                        <h3>Cloud Computing & Infrastructure</h3>
+                        <div class="cert-grid stagger">
+                            <div class="cert-card">
+                                <div class="cert-badge">Oracle</div>
+                                <div class="cert-header">
+                                    <div class="cert-icon">☁️</div>
+                                    <div class="cert-info">
+                                        <div class="cert-title">Oracle Cloud Infrastructure AI Foundations Associate</div>
+                                        <div class="cert-provider">Oracle Corporation</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cert-card">
+                                <div class="cert-badge">Oracle</div>
+                                <div class="cert-header">
+                                    <div class="cert-icon">🏗️</div>
+                                    <div class="cert-info">
+                                        <div class="cert-title">Oracle Cloud Infrastructure Foundations Associate</div>
+                                        <div class="cert-provider">Oracle Corporation</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cert-card">
+                                <div class="cert-badge">Oracle</div>
+                                <div class="cert-header">
+                                    <div class="cert-icon">🎯</div>
+                                    <div class="cert-info">
+                                        <div class="cert-title">Oracle Cloud Success Navigator</div>
+                                        <div class="cert-provider">Oracle Corporation</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cert-card">
+                                <div class="cert-badge">Google</div>
+                                <div class="cert-header">
+                                    <div class="cert-icon">🚀</div>
+                                    <div class="cert-info">
+                                        <div class="cert-title">Google Cloud AI Infrastructure</div>
+                                        <div class="cert-provider">Google Cloud</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Artificial Intelligence & Machine Learning -->
+                    <div class="cert-category">
+                        <h3>Artificial Intelligence & Machine Learning</h3>
+                        <div class="cert-grid stagger">
+                            <div class="cert-card">
+                                <div class="cert-badge">Oracle</div>
+                                <div class="cert-header">
+                                    <div class="cert-icon">🤖</div>
+                                    <div class="cert-info">
+                                        <div class="cert-title">Oracle Cloud Infrastructure 2025 Generative AI Professional</div>
+                                        <div class="cert-provider">Oracle Corporation</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cert-card">
+                                <div class="cert-badge">Industry</div>
+                                <div class="cert-header">
+                                    <div class="cert-icon">🧠</div>
+                                    <div class="cert-info">
+                                        <div class="cert-title">Artificial Intelligence Fundamentals</div>
+                                        <div class="cert-provider">Professional Certification</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cert-card">
+                                <div class="cert-badge">Industry</div>
+                                <div class="cert-header">
+                                    <div class="cert-icon">📊</div>
+                                    <div class="cert-info">
+                                        <div class="cert-title">AI & Machine Learning</div>
+                                        <div class="cert-provider">Professional Certification</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cert-card">
+                                <div class="cert-badge">NVIDIA</div>
+                                <div class="cert-header">
+                                    <div class="cert-icon">⚡</div>
+                                    <div class="cert-info">
+                                        <div class="cert-title">AI Infrastructure and Operations Fundamentals</div>
+                                        <div class="cert-provider">NVIDIA Corporation</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cert-card">
+                                <div class="cert-badge">IBM</div>
+                                <div class="cert-header">
+                                    <div class="cert-icon">🤖</div>
+                                    <div class="cert-info">
+                                        <div class="cert-title">Building AI Agents and Agentic Workflows Specialisation</div>
+                                        <div class="cert-provider">IBM</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Enterprise & Development -->
+                    <div class="cert-category">
+                        <h3>Enterprise Applications & Development</h3>
+                        <div class="cert-grid stagger">
+                            <div class="cert-card">
+                                <div class="cert-badge">Oracle</div>
+                                <div class="cert-header">
+                                    <div class="cert-icon">🏢</div>
+                                    <div class="cert-info">
+                                        <div class="cert-title">Oracle Fusion Cloud Applications SCM Foundations Associate</div>
+                                        <div class="cert-provider">Oracle Corporation</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cert-card">
+                                <div class="cert-badge">Industry</div>
+                                <div class="cert-header">
+                                    <div class="cert-icon">🌐</div>
+                                    <div class="cert-info">
+                                        <div class="cert-title">Web Development Fundamentals</div>
+                                        <div class="cert-provider">Professional Certification</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cert-card">
+                                <div class="cert-badge">Industry</div>
+                                <div class="cert-header">
+                                    <div class="cert-icon">☕</div>
+                                    <div class="cert-info">
+                                        <div class="cert-title">Basics of Java</div>
+                                        <div class="cert-provider">Professional Certification</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cert-card">
+                                <div class="cert-badge">Industry</div>
+                                <div class="cert-header">
+                                    <div class="cert-icon">🐍</div>
+                                    <div class="cert-info">
+                                        <div class="cert-title">The Complete Python Bootcamp</div>
+                                        <div class="cert-provider">Professional Certification</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cert-card">
+                                <div class="cert-badge">Industry</div>
+                                <div class="cert-header">
+                                    <div class="cert-icon">🤖</div>
+                                    <div class="cert-info">
+                                        <div class="cert-title">Robotic Process Automation Overview</div>
+                                        <div class="cert-provider">Professional Certification</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Data Science & Security -->
+                    <div class="cert-category">
+                        <h3>Data Science & Cybersecurity</h3>
+                        <div class="cert-grid stagger">
+                            <div class="cert-card">
+                                <div class="cert-badge">Industry</div>
+                                <div class="cert-header">
+                                    <div class="cert-icon">🛡️</div>
+                                    <div class="cert-info">
+                                        <div class="cert-title">Cyber Security</div>
+                                        <div class="cert-provider">Professional Certification</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cert-card">
+                                <div class="cert-badge">Industry</div>
+                                <div class="cert-header">
+                                    <div class="cert-icon">📊</div>
+                                    <div class="cert-info">
+                                        <div class="cert-title">Introduction to Big Data and Hadoop</div>
+                                        <div class="cert-provider">Professional Certification</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cert-card">
+                                <div class="cert-badge">Industry</div>
+                                <div class="cert-header">
+                                    <div class="cert-icon">🗄️</div>
+                                    <div class="cert-info">
+                                        <div class="cert-title">Cassandra Tutorial</div>
+                                        <div class="cert-provider">Professional Certification</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cert-card">
+                                <div class="cert-badge">Industry</div>
+                                <div class="cert-header">
+                                    <div class="cert-icon">🐝</div>
+                                    <div class="cert-info">
+                                        <div class="cert-title">Hive Hands-on</div>
+                                        <div class="cert-provider">Professional Certification</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Digital Marketing & Emerging Technologies -->
+                    <div class="cert-category">
+                        <h3>Digital Marketing & Emerging Technologies</h3>
+                        <div class="cert-grid stagger">
+                            <div class="cert-card">
+                                <div class="cert-badge">Industry</div>
+                                <div class="cert-header">
+                                    <div class="cert-icon">📱</div>
+                                    <div class="cert-info">
+                                        <div class="cert-title">The Fundamentals of Digital Marketing</div>
+                                        <div class="cert-provider">Professional Certification</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cert-card">
+                                <div class="cert-badge">Industry</div>
+                                <div class="cert-header">
+                                    <div class="cert-icon">₿</div>
+                                    <div class="cert-info">
+                                        <div class="cert-title">Introduction to Cryptocurrency</div>
+                                        <div class="cert-provider">Professional Certification</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Publications Page -->
+        <div id="publications" class="page">
+            <div class="container">
+                <h2 class="section-title">Publications & Research</h2>
+                <div class="card-grid stagger">
+                    <div class="card">
+                        <h3>AI Sentries: ML Models for Phishing Detection</h3>
+                        <p><strong>8th International CSITSS</strong> - November 2024</p>
+                        <p>Formulated a novel, scalable framework to robustly compare diverse ML models on real-world datasets, boosting phishing detection accuracy by 20% and refining overall system resilience. This research contributes to cybersecurity by providing better protection against phishing attacks.</p>
+                    </div>
+                    <div class="card">
+                        <h3>AI-Driven KCET Preparation Platform</h3>
+                        <p><strong>1st International Conference</strong> - December 2024</p>
+                        <p>Presented groundbreaking research at an international conference, showcasing the AI's impact on revolutionizing exam preparation and demonstrating 60% improvement in student performance tracking. This work highlights the potential of AI in educational technology.</p>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 3rem; margin-bottom: 2rem; color: var(--primary-color);">Leadership & Involvement</h3>
+                <div class="card-grid stagger">
+                    <div class="card">
+                        <h3>Teaching Assistant, JEP</h3>
+                        <p>Mentored 30+ students by bridging theory and practical applications, boosting academic performance and engagement through personalized guidance and innovative teaching methods.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Deputy Director of Finance, AIS</h3>
+                        <p>Managed $15K+ budget for 100+ member tech society, enabling 5+ major student events with 100% resource compliance and strategic financial planning.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Community Engagement</h3>
+                        <p>Demonstrated leadership as a Sponsorship Member and Organizer, building partnerships, coordinating major events, and showing initiative through active participation in hackathons, student clubs, and innovation-driven activities. Proven commitment to teamwork and service excellence through competitive sports, award-winning drama, cultural engagements, and impactful community outreach including volunteer teaching and social initiatives.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Page -->
+        <div id="contact" class="page">
+            <div class="container">
+                <div class="contact-hero">
+                    <h2 class="section-title">Let's Connect</h2>
+                    <p>Ready to collaborate on innovative AI solutions or discuss exciting opportunities? I'd love to hear from you.</p>
+                </div>
+                
+                <div class="contact-container">
+                    <div class="contact-grid">
+                        <div class="contact-item">
+                            <div class="contact-icon">📧</div>
+                            <h3>Email</h3>
+                            <div class="contact-detail">Let's discuss opportunities</div>
+                            <a href="mailto:im.vaish1419@gmail.com" class="contact-value">im.vaish1419@gmail.com</a>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">📱</div>
+                            <h3>Phone</h3>
+                            <div class="contact-detail">Available for calls</div>
+                            <span class="contact-value">+1 (213) 357-6437</span>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">💼</div>
+                            <h3>LinkedIn</h3>
+                            <div class="contact-detail">Professional networking</div>
+                            <a href="https://www.linkedin.com/in/vaishnavi-s-65bb01240" target="_blank" class="contact-value">Connect with me</a>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">📍</div>
+                            <h3>Location</h3>
+                            <div class="contact-detail">Currently based in</div>
+                            <span class="contact-value">Los Angeles, California, USA</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Page navigation
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            event.target.classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // Theme toggle
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggle = document.getElementById('themeToggle');
+            
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                themeToggle.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Initialize background animation
+        function createFloatingShapes() {
+            const container = document.getElementById('shapes');
+            const shapes = ['circle', 'square', 'triangle'];
+            
+            for (let i = 0; i < 15; i++) {
+                const shape = document.createElement('div');
+                shape.className = `shape ${shapes[Math.floor(Math.random() * shapes.length)]}`;
+                shape.style.left = Math.random() * 100 + '%';
+                shape.style.animationDelay = Math.random() * 20 + 's';
+                shape.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(shape);
+            }
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load saved theme
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+                document.getElementById('themeToggle').textContent = '☀️';
+            }
+            
+            // Initialize floating shapes
+            createFloatingShapes();
+            
+            // Add stagger animation to elements
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -100px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe stagger elements
+            document.querySelectorAll('.stagger > *').forEach(el => {
+                observer.observe(el);
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = document.body.getAttribute('data-theme') === 'dark' 
+                    ? 'rgba(15, 23, 42, 0.98)' 
+                    : 'rgba(248, 250, 252, 0.98)';
+            } else {
+                navbar.style.background = document.body.getAttribute('data-theme') === 'dark' 
+                    ? 'rgba(15, 23, 42, 0.95)' 
+                    : 'rgba(248, 250, 252, 0.95)';
+            }
+        });
+    </script>
+</body>
+</html>
