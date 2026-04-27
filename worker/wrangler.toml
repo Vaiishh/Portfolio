@@ -1,0 +1,9 @@
+name = "viggy-chat"
+main = "worker.js"
+compatibility_date = "2024-12-01"
+
+# Optional: KV namespace for per-IP rate limiting.
+# Uncomment after creating the namespace (see worker/README.md step 5).
+# [[kv_namespaces]]
+# binding = "RATE_KV"
+# id = "PASTE_YOUR_KV_ID_HERE"
